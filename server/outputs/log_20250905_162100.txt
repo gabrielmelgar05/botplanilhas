@@ -1,0 +1,8 @@
+Ação: MERGE
+Destino: usuarios_id; Origem: usuarios_cpf
+Chave: nome
+Colunas adicionadas: cpf
+Fill missing: SEM CPF
+Linhas destino (antes): 5
+Linhas resultado (depois): 5
+Sem correspondência: 1

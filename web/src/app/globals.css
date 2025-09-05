@@ -1,0 +1,9 @@
+@import "tailwindcss";
+/* web/src/app/globals.css */
+html, body, #__next {
+  height: 100%;
+}
+body {
+  background: #000;   /* fundo preto global */
+  color: #fff;        /* texto padrão branco */
+}
