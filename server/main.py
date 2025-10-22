@@ -1,4 +1,3 @@
-# server/main.py
 from fastapi import FastAPI, UploadFile, Form, HTTPException
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -24,8 +23,6 @@ os.makedirs(SESSIONS_DIR, exist_ok=True)
 
 ALLOWED_EXTS = {".csv", ".xlsx"}
 ALLOWED_DESC = "Tipos aceitos: CSV (.csv) e Excel (.xlsx)."
-
-# -------------------- Utilidades -------------------- #
 
 def norm_col(s: str) -> str:
     s = s.strip().lower()

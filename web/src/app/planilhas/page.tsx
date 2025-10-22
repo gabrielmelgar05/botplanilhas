@@ -29,7 +29,6 @@ type ChatMessage =
 const API = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
 const ALLOWED_EXTS = [".csv", ".xlsx"];
 
-// -------- helpers --------
 function summarize(s: RunSummary) {
   if (s.detected_action === "SORT") {
     const order = s.sort_order === "desc" ? "decrescente" : "crescente";
@@ -64,9 +63,7 @@ function useToasts() {
   return { toasts, push };
 }
 
-// -------- page --------
 export default function PlanilhasIA() {
-  // efêmero
   const [sessionId, setSessionId] = useState<string>("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   useEffect(() => {
@@ -78,7 +75,6 @@ export default function PlanilhasIA() {
     } catch {}
   }, []);
 
-  // ui
   const [slots, setSlots] = useLocalStore<UploadSlot[]>("planilhas.slots", [
     { alias: "usuarios_id" },
     { alias: "usuarios_cpf" },
@@ -141,9 +137,8 @@ export default function PlanilhasIA() {
       return;
     }
 
-    // captura o prompt atual e limpa o campo imediatamente
     const currentPrompt = prompt;
-    setPrompt(""); // <- LIMPA o campo de digitação sempre que envia
+    setPrompt("");
 
     setLoading(true);
     try {
@@ -178,7 +173,6 @@ export default function PlanilhasIA() {
 
       const ctype = res.headers.get("content-type") || "";
 
-      // (A) arquivo direto
       if (
         ctype.includes("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") ||
         ctype.includes("text/csv")
@@ -209,7 +203,6 @@ export default function PlanilhasIA() {
         return;
       }
 
-      // (B) json
       const data = (await res.json()) as RunResponse;
       if (data?.session_id && data.session_id !== sessionId) setSessionId(data.session_id);
 
@@ -235,10 +228,8 @@ export default function PlanilhasIA() {
     setMessages([]);
   };
 
-  // -------- UI --------
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Topbar */}
       <div className="border-b border-white/10 bg-black">
         <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
           <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">
@@ -265,7 +256,6 @@ export default function PlanilhasIA() {
         </div>
       </div>
 
-      {/* Toasts */}
       <div className="fixed top-4 right-4 z-50 space-y-2">
         {toasts.map((t) => (
           <div
@@ -278,9 +268,7 @@ export default function PlanilhasIA() {
         ))}
       </div>
 
-      {/* Main */}
       <div className="mx-auto max-w-6xl p-6 space-y-8">
-        {/* Quantidade */}
         <div className="flex flex-wrap items-center gap-3">
           <label className="text-sm font-medium">Quantidade de campos de arquivo</label>
           <select
@@ -299,7 +287,6 @@ export default function PlanilhasIA() {
           </span>
         </div>
 
-        {/* Uploads */}
         <section className="grid gap-4">
           {slots.map((slot, i) => (
             <div
@@ -337,7 +324,6 @@ export default function PlanilhasIA() {
           ))}
         </section>
 
-        {/* Chat */}
         <section className="rounded-2xl border border-white/10 bg-black p-4 shadow-sm">
           <div className="space-y-4 max-h-[50vh] overflow-auto pr-2">
             {messages.map((m, idx) =>
